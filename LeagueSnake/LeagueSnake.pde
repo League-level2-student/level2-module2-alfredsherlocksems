@@ -2,14 +2,17 @@
 // ***** SEGMENT CLASS *****
 // This class will be used to represent each part of the moving snake.
 //*
-
 class Segment {
-
+int x;
+int y;
 //Add x and y member variables. They will hold the corner location of each segment of the snake.
 
 
 // Add a constructor with parameters to initialize each variable.
-
+void Segment (int x, int y) {
+  this.x=x;
+  this.y=y;
+}
 
 
 }
@@ -19,8 +22,11 @@ class Segment {
 // ***** GAME VARIABLES *****
 // All the game variables that will be shared by the game methods are here
 //*
-
-
+Segment head;
+int randomFoodLocationX;
+int randomFoodLocationY;
+int snakeDirection = UP;
+int foodEatenCount = 0;
 
 
 
@@ -30,12 +36,17 @@ class Segment {
 //*
 
 void setup() {
-
+size(500, 500);
+head = new Segment();
+frameRate(20);
+dropFood();
 }
 
 void dropFood() {
   //Set the food in a new random location
-    
+    int randomFoodLocationX = (int) random (50) * 10;
+    int randomFoodLocationY = (int) random (50) * 10;
+    drawFood(randomFoodLocationX, randomFoodLocationY);
 }
 
 
@@ -46,16 +57,22 @@ void dropFood() {
 //*
 
 void draw() {
-  
+  background(#FFC217);
+  move();
+  drawSnake();
 }
 
-void drawFood() {
+void drawFood(int randomFoodLocationX, int randomFoodLocationY) {
   //Draw the food
-  
+  fill(#FF0540);
+  rect(randomFoodLocationX, randomFoodLocationY, 10, 10);
 }
 
 void drawSnake() {
   //Draw the head of the snake followed by its tail
+  fill(#0FF789);
+  rect(5, 250, 20, 15);
+  rect(head.x, head.y, 20, 20);
 }
 
 
@@ -66,7 +83,7 @@ void drawSnake() {
 
 void drawTail() {
   //Draw each segment of the tail 
-
+  
 }
 
 void manageTail() {
@@ -95,8 +112,8 @@ void keyPressed() {
 void move() {
   //Change the location of the Snake head based on the direction it is moving.
   
-    /*
-  switch(direction) {
+    
+  switch(snakeDirection) {
   case UP:
     // move head up here 
     break;
@@ -110,7 +127,7 @@ void move() {
     // mystery code goes here 
     break;
   }
-  */
+  checkBoundaries();
 }
 
 void checkBoundaries() {
